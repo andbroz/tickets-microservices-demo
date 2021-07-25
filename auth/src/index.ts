@@ -1,10 +1,12 @@
 require('dotenv').config();
 import express from 'express';
+import 'express-async-errors';
 import { currentUserRouter } from './routes/current-user';
 import { signInRouter } from './routes/sign-in';
 import { signOutRouter } from './routes/sign-out';
 import { signUpRouter } from './routes/sign-up';
 import { errorHandler } from './middlewares/error-handler';
+import { NotFoundError } from './errors/not-found-error';
 
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -20,6 +22,10 @@ app.use(signInRouter);
 app.use(signOutRouter);
 app.use(signUpRouter);
 
+// Not found route error handler
+app.all('*', async (req, res) => {
+  throw new NotFoundError();
+});
 /**
  * Middlewares
  */
