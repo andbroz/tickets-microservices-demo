@@ -1,6 +1,8 @@
 require('dotenv').config();
 import express from 'express';
 import 'express-async-errors';
+import mongoose from 'mongoose';
+
 import { currentUserRouter } from './routes/current-user';
 import { signInRouter } from './routes/sign-in';
 import { signOutRouter } from './routes/sign-out';
@@ -31,9 +33,26 @@ app.all('*', async (req, res) => {
  */
 app.use(errorHandler);
 
-/**
- * LISTEN
- */
-app.listen(PORT, () => {
-  console.log(`Auth service listening on http://localhost:${PORT}`);
-});
+/** Database connection */
+
+const start = async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
+    console.log('DB connected');
+  } catch (err) {
+    console.log('DB ERR:', err);
+  }
+
+  /**
+   * LISTEN
+   */
+  app.listen(PORT, () => {
+    console.log(`Auth service listening on http://localhost:${PORT}`);
+  });
+};
+
+start();
