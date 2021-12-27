@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "auth"
+	}
+],
+  "settings": {
+    "typescript.tsdk": "auth\\node_modules\\typescript\\lib"
+  }
+}

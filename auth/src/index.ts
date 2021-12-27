@@ -2,6 +2,7 @@ require('dotenv').config();
 import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 
 import { currentUserRouter } from './routes/current-user';
 import { signInRouter } from './routes/sign-in';
@@ -13,7 +14,18 @@ import { NotFoundError } from './errors/not-found-error';
 const PORT = process.env.PORT ?? 3000;
 const app = express();
 
+// https://expressjs.com/en/5x/api.html#trust.proxy.options.table
+// express is behind ingress-nginx and need to trust that proxy
+app.set('trust proxy', true);
+app.set('x-powered-by', false);
+
 app.use(express.json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  }),
+);
 
 /**
  * ROUTES
