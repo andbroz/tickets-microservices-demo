@@ -28,30 +28,31 @@ app.use(signUpRouter);
 app.all('*', async (req, res) => {
   throw new NotFoundError();
 });
+
 /**
- * Middlewares
+ * Middleware
  */
+
 app.use(errorHandler);
 
 /** Database connection */
 
 const start = async () => {
   try {
-    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    });
-    console.log('DB connected');
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    console.info('DB connected');
   } catch (err) {
-    console.log('DB ERR:', err);
+    if (err instanceof Error) {
+      console.error('DB ERR:', err.message);
+    }
+    console.error('DB ERR:', JSON.stringify(err, null, 2));
   }
 
   /**
    * LISTEN
    */
   app.listen(PORT, () => {
-    console.log(`Auth service listening on http://localhost:${PORT}`);
+    console.info(`Auth service listening on http://localhost:${PORT}`);
   });
 };
 
