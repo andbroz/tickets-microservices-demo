@@ -50,6 +50,10 @@ app.use(errorHandler);
 /** Database connection */
 
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error('No JWT_KEY environment variable found');
+  }
+
   try {
     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
     console.info('DB connected');

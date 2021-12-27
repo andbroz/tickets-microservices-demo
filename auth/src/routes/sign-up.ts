@@ -8,6 +8,9 @@ import { User } from '../models/user';
 
 const router = express.Router();
 
+// we check it at the beginning of app start up @ index
+const jwtKey = process.env.JWT_KEY!;
+
 router.post(
   '/api/users/signup',
   [
@@ -36,12 +39,13 @@ router.post(
     await user.save();
 
     // generate jwt
+
     const userJwt = jwt.sign(
       {
         id: user.id,
         email: user.email,
       },
-      'mySecretKey',
+      jwtKey,
     );
     // store token in session object
     req.session = {
