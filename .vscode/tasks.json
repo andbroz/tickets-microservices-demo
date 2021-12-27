@@ -6,7 +6,8 @@
     {
       "label": "app:start",
       "type": "shell",
-      "command": "${cwd}/startapp.ps1"
+      "command": "${cwd}/startapp.ps1",
+      "problemMatcher": []
     }
   ]
 }
