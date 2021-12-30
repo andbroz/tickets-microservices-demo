@@ -1,13 +1,14 @@
 {
   "folders": [
-	{
-		"path": "."
-	},
-	{
-		"path": "auth"
-	}
-],
+    {
+      "path": "."
+    },
+    {
+      "path": "auth"
+    }
+  ],
   "settings": {
-    "typescript.tsdk": "auth\\node_modules\\typescript\\lib"
+    "typescript.tsdk": "auth\\node_modules\\typescript\\lib",
+    "cSpell.words": ["signin"]
   }
 }

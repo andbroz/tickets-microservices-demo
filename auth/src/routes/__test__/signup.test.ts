@@ -35,4 +35,34 @@ describe('Signup', () => {
     await request(app).post('/api/users/signup').send({ password: 'password' }).expect(400);
     await request(app).post('/api/users/signup').send({}).expect(400);
   });
+
+  test('should disallow duplicate email', async () => {
+    await request(app)
+      .post('/api/users/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'password',
+      })
+      .expect(201);
+    // check duplicate email
+    await request(app)
+      .post('/api/users/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'password',
+      })
+      .expect(400);
+  });
+
+  test('should set a cookie after successful signup', async () => {
+    const response = await request(app)
+      .post('/api/users/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'password',
+      })
+      .expect(201);
+
+    expect(response.get('Set-Cookie')).toBeDefined();
+  });
 });

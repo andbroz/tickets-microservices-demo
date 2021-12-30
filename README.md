@@ -68,3 +68,10 @@ http://ticketing.dev.local/api/users/currentuser
 
 1. **How to skip unskippable HTTPS warning in Chrome?**  
    Just click inside page with error and type `thisisunsafe`
+
+## Stack
+
+- Testing
+  - [mongodb-memory-server](https://nodkz.github.io/mongodb-memory-server/)
+  - [Supertest](https://github.com/visionmedia/supertest)
+  - jest , ts-jest
