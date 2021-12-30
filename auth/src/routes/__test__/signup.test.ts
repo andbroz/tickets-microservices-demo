@@ -11,4 +11,28 @@ describe('Signup', () => {
       })
       .expect(201);
   });
+
+  test('should return a 400 with and invalid email', async () => {
+    return request(app)
+      .post('/api/users/signup')
+      .send({
+        email: 'invalid',
+        password: 'password',
+      })
+      .expect(400);
+  });
+  test('should return a 400 with and invalid password', async () => {
+    return request(app)
+      .post('/api/users/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'p',
+      })
+      .expect(400);
+  });
+  test('should return a 400 with missing email and password', async () => {
+    await request(app).post('/api/users/signup').send({ email: 'test@test.com' }).expect(400);
+    await request(app).post('/api/users/signup').send({ password: 'password' }).expect(400);
+    await request(app).post('/api/users/signup').send({}).expect(400);
+  });
 });
