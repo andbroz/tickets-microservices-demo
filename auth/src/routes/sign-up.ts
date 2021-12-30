@@ -7,9 +7,6 @@ import { User } from '../models/user';
 
 const router = express.Router();
 
-// we check it at the beginning of app start up @ index
-const jwtKey = process.env.JWT_KEY!;
-
 router.post(
   '/api/users/signup',
   [
@@ -40,7 +37,7 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      jwtKey,
+      process.env.JWT_KEY!,
     );
     // store token in session object
     req.session = {

@@ -7,7 +7,6 @@ import { User } from '../models/user';
 import { Password } from '../services/password';
 
 const router = express.Router();
-const jwtKey = process.env.JWT_KEY!;
 
 router.post(
   '/api/users/signin',
@@ -38,7 +37,7 @@ router.post(
         id: existingUser.id,
         email: existingUser.email,
       },
-      jwtKey,
+      process.env.JWT_KEY!,
     );
     // store token in session object
     req.session = {
