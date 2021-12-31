@@ -5,6 +5,9 @@
     },
     {
       "path": "auth"
+    },
+    {
+      "path": "client"
     }
   ],
   "settings": {
