@@ -8,13 +8,13 @@ const SignUpForm: NextPage = () => {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const { doRequest, errors } = useRequest<Record<string, unknown>>({
+  const { doRequest, errors } = useRequest<{ email: string; id: string }>({
     request: {
       url: '/api/users/signup',
       method: 'post',
       body: { email, password },
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       router.push('/');
     },
   });
