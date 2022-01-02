@@ -1,21 +1,22 @@
 import { NextPage } from 'next';
 import React, { useState } from 'react';
-import axios from 'axios';
+import useRequest from '../../hooks/useRequest';
 
 const SignUpForm: NextPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ message: string }[]>([]);
+
+  const { doRequest, errors } = useRequest<Record<string, unknown>>({
+    url: '/api/users/signup',
+    method: 'post',
+    body: { email, password },
+  });
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/api/users/signup', { email, password });
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setErrors(err.response?.data.errors);
-      }
-    }
+
+    const response = await doRequest();
+
     setEmail('');
     setPassword('');
   };
@@ -51,13 +52,13 @@ const SignUpForm: NextPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {errors.length > 0 && (
-          <div className='my-2 border-2 border-red-300'>
-            <h4>Oooops...</h4>
+        {!!errors && errors.length > 0 && (
+          <div className='my-2 border-2 border-red-300 bg-rose-300 rounded'>
+            <h4 className='text-red-900 font-semibold'>Oooops...</h4>
             <ul>
               {errors.map((err) => {
                 return (
-                  <li className='text-red-600 font-sans text-xs' key={err.message}>
+                  <li className='text-red-900 font-sans text-xs' key={err.message}>
                     {err.message}
                   </li>
                 );
