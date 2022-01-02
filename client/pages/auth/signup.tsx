@@ -1,15 +1,22 @@
 import { NextPage } from 'next';
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import useRequest from '../../hooks/useRequest';
 
 const SignUpForm: NextPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const { doRequest, errors } = useRequest<Record<string, unknown>>({
-    url: '/api/users/signup',
-    method: 'post',
-    body: { email, password },
+    request: {
+      url: '/api/users/signup',
+      method: 'post',
+      body: { email, password },
+    },
+    onSuccess: () => {
+      router.push('/');
+    },
   });
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
