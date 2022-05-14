@@ -16,9 +16,21 @@ Focus on ticketing aspect of application and its challenges.
 ### Prerequisites
 
 - install Docker
-- install Kubernetes
-- install minikube
-- install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/)
+- install Kubernetes inside docker
+- install [NGINX Ingress Controller](hhttps://kubernetes.github.io/ingress-nginx/deploy/#quick-start)
+
+### NGINX Ingress command (no Helm)
+
+```console
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
+
+```
+
+### Generate secret for kubernetees
+
+```console
+kubectl create secret generic jwt-secret --from-literal JWT_KEY=asdf
+```
 
 ### Running application in Docker
 
