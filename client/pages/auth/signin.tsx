@@ -10,7 +10,7 @@ const SignUpForm: NextPage = () => {
 
   const { doRequest, errors } = useRequest<{ email: string; id: string }>({
     request: {
-      url: '/api/users/signup',
+      url: '/api/users/signin',
       method: 'post',
       body: { email, password },
     },
@@ -31,7 +31,7 @@ const SignUpForm: NextPage = () => {
   return (
     <div className='container flex mx-auto w-full flex-auto justify-center items-center mt-10'>
       <form className='w-1/3' onSubmit={onSubmit}>
-        <h1 className='font-bold text-2xl'>Sign Up</h1>
+        <h1 className='font-bold text-2xl'>Sign In</h1>
         <div className='flex flex-col'>
           <label className='font-semibold text-base  mt-2' htmlFor='email'>
             Email address
@@ -77,7 +77,7 @@ const SignUpForm: NextPage = () => {
           className='w-fit h-fit p-2 bg-blue-600 text-white rounded text-center align-middle hover:bg-blue-400'
           type='submit'
         >
-          Sign Up
+          Sign In
         </button>
       </form>
     </div>

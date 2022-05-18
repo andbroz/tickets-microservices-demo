@@ -1,39 +1,27 @@
-import type { InferGetServerSidePropsType, NextPage, NextPageContext } from 'next';
-import { GetServerSideProps } from 'next';
-import axios from 'axios';
+import type { NextPage, NextPageContext } from 'next';
+import { buildClient } from '../api/build-client';
+import { CurrentUser, User } from '../types/user';
 
-export const baseURL = 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local';
+interface PageProps {
+  currentUser: CurrentUser | null;
+}
 
-type User = {
-  currentUser: {
-    id: string;
-    email: string;
-    iat: number;
-  } | null;
+const Home: NextPage<PageProps> = ({ currentUser }) => {
+  return <div>Welcome {currentUser ? `${currentUser.email}` : 'stranger'}</div>;
 };
 
-export const getServerSideProps: GetServerSideProps<User> = async ({ req }) => {
+Home.getInitialProps = async (ctx: NextPageContext) => {
+  const client = buildClient(ctx);
   try {
-    const response = await axios.get<User>(`${baseURL}/api/users/currentuser`, {
-      headers: {
-        host: req.headers.host ?? 'ticketing.dev.local',
-        cookie: req.headers.cookie ?? '',
-      },
-    });
-    return { props: response.data };
+    const { data: user } = await client.get<User>('/api/users/currentuser');
+    return user;
   } catch (err) {
     if (err instanceof Error) {
-      console.error(err.message);
+      console.error('ERROR:', err.message);
     }
   }
 
-  return { props: { currentUser: null } };
+  return { currentUser: null };
 };
-
-function Home(data: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log(data.currentUser);
-
-  return <h1 className='bg-emerald-800 text-2xl text-white'>Home</h1>;
-}
 
 export default Home;
