@@ -1,6 +1,5 @@
+import { currentUser } from '@ab-learn-org/common';
 import express from 'express';
-import { currentUser } from '../middlewares/currentUser';
-import { requireAuth } from '../middlewares/requireAuth';
 
 const router = express.Router();
 
