@@ -14,4 +14,18 @@ kubectl get namespace
  kubectl get services -n ingress-nginx
 ```
 
+### Display list of pods
+
+```console
+kubectl get pods
+```
+
+### Execute command inside pod
+
+```console
+kubectl exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...] [options]
+
+kubectl exec auth-depl-6c9f859c58-n6xph -it -- sh
+```
+
 ## Docker
