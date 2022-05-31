@@ -15,7 +15,7 @@ const start = async () => {
 
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.info('DB  connected:', process.env.MONGO_URI);
+    console.info('DB connected:', process.env.MONGO_URI);
   } catch (err) {
     if (err instanceof Error) {
       console.error('DB ERR:', err.message);
@@ -27,7 +27,7 @@ const start = async () => {
    * LISTEN
    */
   app.listen(PORT, () => {
-    console.info(`Auth service listening on http://localhost:${PORT}`);
+    console.info(`Tickets service listening on http://localhost:${PORT}`);
   });
 };
 
