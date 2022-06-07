@@ -11,6 +11,9 @@
     },
     {
       "path": "..\\tickets-common"
+    },
+    {
+      "path": "tickets"
     }
   ],
   "settings": {
