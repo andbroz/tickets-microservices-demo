@@ -10,7 +10,7 @@
       "path": "client"
     },
     {
-      "path": "common"
+      "path": "..\\tickets-common"
     }
   ],
   "settings": {
