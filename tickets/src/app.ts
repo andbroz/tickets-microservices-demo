@@ -1,8 +1,12 @@
 require('dotenv').config();
-import { errorHandler, NotFoundError } from '@ab-learn-org/common';
+import { errorHandler, NotFoundError, currentUser } from '@ab-learn-org/common';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import 'express-async-errors';
+import { indexTicketRouter } from './routes/index';
+import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 
@@ -19,9 +23,16 @@ app.use(
   }),
 );
 
+app.use(currentUser);
+
 /**
  * ROUTES
  */
+
+app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 // Not found route error handler
 app.all('*', async (req, res) => {

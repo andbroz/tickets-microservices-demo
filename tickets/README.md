@@ -1,3 +1,11 @@
+## Routes
+
+- `/api/tickets` Method `GET`
+- `/api/tickets/:id` Method `GET`
+- `/api/tickets` Method `POST` body: {title:string, price:string}
+- `/api/tickets` Method `PUT` body: {title:string, price:string}
+-
+
 # some commands
 
 ## build docker image
