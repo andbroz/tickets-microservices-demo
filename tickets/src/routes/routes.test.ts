@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { app } from '../app';
+import { Ticket } from '../models/ticket';
 
 describe('tickets routes', () => {
   it('has route handler listening to /api/tickets for POST requests', async () => {
@@ -20,6 +21,47 @@ describe('tickets routes', () => {
 
     expect(response.status).not.toEqual(401);
   });
-  it('return error if invalid title is provided', async () => {});
-  it('should create a ticket with valid inputs', async () => {});
+  it('return error if invalid title is provided', async () => {
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({ title: '', price: 10 })
+      .expect(400);
+
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({ price: 10 })
+      .expect(400);
+  });
+  it('return error if invalid price is provided', async () => {
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({ title: 'goodtitle', price: -10 })
+      .expect(400);
+
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({ title: 'goodtitle2' })
+      .expect(400);
+  });
+  it('should create a ticket with valid inputs', async () => {
+    let tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(0);
+
+    const title = 'goodtitle';
+
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({ title, price: 20 })
+      .expect(201);
+
+    tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(1);
+    expect(tickets[0].price).toEqual(20);
+    expect(tickets[0].title).toEqual(title);
+  });
 });
